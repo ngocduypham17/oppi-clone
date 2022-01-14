@@ -1,0 +1,53 @@
+.MuiButton-label {
+  font-weight: bold;
+  color: rgb(66, 179, 230);
+  margin-right: 8px;
+}
+
+.MuiTypography-body1 {
+  color: black;
+}
+
+tbody {
+  tr:nth-child(even) {
+    background-color: rgb(220, 241, 250);
+  }
+}
+.dlt {
+  padding: 0 3px;
+  background-color: whitesmoke;
+  border-radius: 3px;
+  border: 1px solid whitesmoke;
+  box-shadow: 5px 5px 6px -2px rgba(0, 0, 0, 0.6);
+  transition: 0.3s;
+}
+.dlt:hover{
+  color: red;
+}
+.MuiTable-root{
+    margin-top: 5rem;
+}
+.pagination{
+  margin: 2rem auto;
+}
+.live{
+  align-content: center;
+  background:rgb(245, 184, 194);
+  color:red;
+  maxHeight:20px;
+  maxWidth:25px;
+  border-radius: 10px;
+}
+.ended{
+  align-content: center;
+  background:#AFAFAF;
+  color:#000;
+  maxHeight:20px;
+  maxWidth:25px;
+  border-radius: 10px;
+}
+.nav{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}

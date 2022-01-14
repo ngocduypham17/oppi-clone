@@ -1,0 +1,19 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  label{
+    font-weight: bold;
+  }
+  p {
+    margin: 0;
+    color: red;
+  }
+  @media screen and (max-width: 600px) {
+    .b{
+      width: 160px;
+    }
+  }
+  .create:hover{
+    text-decoration: underline;
+  }
+  
