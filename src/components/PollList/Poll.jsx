@@ -18,6 +18,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grow from "@mui/material/Grow";
+import MenuItem from "@mui/material/MenuItem";
+import MenuList from "@mui/material/MenuList";
 import axios from "axios";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import Pagination from "@material-ui/lab/Pagination";
@@ -41,41 +45,77 @@ const useStyles = makeStyles((theme) => ({
 export default function Poll() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
+  const [openLogOut, setOpenLogOut] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
   const [placement, setPlacement] = React.useState();
   const [offset, setOffset] = useState(0);
-  const [Polls, setPolls] = useState([]);
+  const [polls, setPolls] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [Page, setPage] = useState(0);
+  const [page, setPage] = useState(0);
   const classes = useStyles();
   const navigate = useNavigate();
   const AccessToken = localStorage.getItem("AdminAccessToken");
   const header = { Authorization: `Bearer ${AccessToken}` };
   const URL = `https://dev.oppi.live/api/admin/v1/polls?offset=${offset}&limit=10&direction=desc&search=`;
-  const SIGNOUT = "https://dev.oppi.live/api/admin/v1/auth/signout";
+  const SIGNOUT_URL = "https://dev.oppi.live/api/admin/v1/auth/signout";
+  const DEL_URL = "https://dev.oppi.live/api/admin/v1/polls";
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+    setAnchorEl(null);
+    setOpen(false);
+    setOpenLogOut(false);
+    setOpenDelete(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === "Tab") {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(open);
+  React.useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenLogOut(true);
+  };
+
+  const handleOpenDelete = () => {
+    setOpenDelete(true);
   };
 
   const handleLogOut = () => {
-   
-      localStorage.removeItem("AdminAccessToken");
-      navigate("/");
-      axios
-        .post(SIGNOUT)
-        .then((response) => console.log(response))
-        .catch((e) => console.log(e));
-    };
- 
+    axios
+      .post(SIGNOUT_URL)
+      .then((response) => {
+        localStorage.removeItem("AdminAccessToken");
+        console.log(response);
+      })
+      .catch((e) => console.log(e));
+  };
+
   const handleClick = (newPlacement) => (event) => {
     setAnchorEl(event.currentTarget);
     setOpen((prev) => placement !== newPlacement || !prev);
     setPlacement(newPlacement);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-    setOpen(false);
   };
   const openDetail = () => {
     navigate("/Detail");
@@ -86,9 +126,6 @@ export default function Poll() {
     let day = String(time.getDate()).padStart(2, "0");
     let month = String(time.getMonth() + 1).padStart(2, "0");
     let year = time.getFullYear();
-    if (format && format.format === "YYYY-MM-DD") {
-      return `${year}-${month}-${day}`;
-    }
     return `${day}-${month}-${year}`;
   };
 
@@ -109,6 +146,20 @@ export default function Poll() {
       console.log(e);
     }
   };
+  const  deletePoll = async (id) =>{
+    return await 
+      axios
+        .delete(`${DEL_URL}/${id}`,{ headers: header })
+        .then((respon) => console.log(respon))
+        .catch((e) => console.log(e))
+    };
+  
+  const handleDelete = async (id) => {
+    await deletePoll(id);
+    getData();
+    setOpenDelete(false);
+  };
+
   useEffect(() => {
     getData();
   }, [offset]);
@@ -123,29 +174,52 @@ export default function Poll() {
           <Typography variant="h4">Poll List</Typography>
         </div>
         <div>
-          <Button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            onClick={handleClick("bottom")}
-          >
-            Oppi Admin
-            <KeyboardArrowDownIcon />
-          </Button>
-          <Popper
-            open={open}
-            anchorEl={anchorEl}
-            placement={placement}
-            transition
-          >
-            {({ TransitionProps }) => (
-              <Fade {...TransitionProps} timeout={350}>
-                <Paper>
-                  <Typography className={classes.typography}>Logout</Typography>
-                </Paper>
-              </Fade>
-            )}
-          </Popper>
-          <Dialog open={open} onClose={handleClose}>
+          <div>
+            <Button
+              ref={anchorRef}
+              id="composition-button"
+              aria-controls={open ? "composition-menu" : undefined}
+              aria-expanded={open ? "true" : undefined}
+              aria-haspopup="true"
+              onClick={handleToggle}
+            >
+              Oppi Admin
+              <KeyboardArrowDownIcon />
+            </Button>
+            <Popper
+              open={open}
+              anchorEl={anchorRef.current}
+              role={undefined}
+              placement="bottom-start"
+              transition
+              disablePortal
+              onClick={handleClickOpen}
+            >
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  style={{
+                    transformOrigin:
+                      placement === "bottom-start" ? "left top" : "left bottom",
+                  }}
+                >
+                  <Paper>
+                    <ClickAwayListener onClickAway={handleClose}>
+                      <MenuList
+                        autoFocusItem={open}
+                        id="composition-menu"
+                        aria-labelledby="composition-button"
+                        onKeyDown={handleListKeyDown}
+                      >
+                        <MenuItem onClick={handleClose}>Logout</MenuItem>
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
+          </div>
+          <Dialog open={openLogOut} onClose={handleClose}>
             <DialogTitle textAlign="center">Log Out</DialogTitle>
             <DialogContent>
               <DialogContentText>
@@ -158,7 +232,7 @@ export default function Poll() {
                 onClick={handleLogOut}
                 autoFocus
                 sx={{
-                  color: "red",
+                  backgroundColor: "red",
                 }}
               >
                 Yes
@@ -181,7 +255,7 @@ export default function Poll() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Polls.map((poll) => {
+            {polls.map((poll) => {
               return (
                 <TableRow id={poll.id}>
                   <TableCell onClick={openDetail} component="th" scope="row">
@@ -209,7 +283,30 @@ export default function Poll() {
                     </TableCell>
                   )}
                   <TableCell align="center">
-                    <button className="dlt" onClick={handleClick}>DELETE</button>
+                    <button className="dlt" onClick={handleOpenDelete}>
+                      DELETE
+                    </button>
+                    <Dialog
+                      open={openDelete}
+                      onClose={handleClose}
+                      aria-labelledby="responsive-dialog-title"
+                    >
+                      <DialogTitle id="responsive-dialog-title"></DialogTitle>
+                      <DialogContent>
+                        <DialogContentText>
+                          Are you sure you would like to delete this poll? Once
+                          deleted, it cannot be retrieved.
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button autoFocus onClick={handleClose}>
+                          Keep Poll
+                        </Button>
+                        <Button onClick={()=>handleDelete(poll.id)} autoFocus>
+                          Delete
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
                   </TableCell>
                 </TableRow>
               );
@@ -220,7 +317,7 @@ export default function Poll() {
 
       <div style={{ margin: "2rem auto" }} className={classes.root}>
         <Pagination
-          count={Page}
+          count={page}
           variant="outlined"
           shape="rounded"
           page={currentPage}

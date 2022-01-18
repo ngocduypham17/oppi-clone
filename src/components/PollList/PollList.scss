@@ -5,7 +5,6 @@
 }
 .MuiDialogActions-root {
   .MuiButtonBase-root:nth-child(even) {
-    float: right;
     background-color: rgb(17, 142, 226);
     .MuiButton-label {
       color: white;
@@ -13,11 +12,18 @@
   }
   .MuiButtonBase-root:nth-child(odd) {
     background-color: rgb(199, 199, 199);
-    float: left;
     .MuiButton-label {
       color: black;
     }
   }
+}
+.MuiTableCell-root{
+    .MuiButtonBase-root:nth-child(even) {
+      background-color: rgb(175, 15, 148);
+      .MuiButton-label {
+        color: white;
+      }
+    }
 }
 .MuiTypography-body1 {
   color: black;
@@ -49,16 +55,12 @@ tbody {
   align-content: center;
   background: rgb(245, 184, 194);
   color: red;
-  maxheight: 20px;
-  maxwidth: 25px;
   border-radius: 10px;
 }
 .ended {
   align-content: center;
   background: #afafaf;
   color: #000;
-  maxheight: 20px;
-  maxwidth: 25px;
   border-radius: 10px;
 }
 .nav {
