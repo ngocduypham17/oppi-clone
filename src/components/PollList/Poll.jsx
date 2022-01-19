@@ -52,6 +52,7 @@ export default function Poll() {
   const [polls, setPolls] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [page, setPage] = useState(0);
+  const [isDelete,setIsDelete] = useState(false);
   const classes = useStyles();
   const navigate = useNavigate();
   const AccessToken = localStorage.getItem("AdminAccessToken");
@@ -156,13 +157,14 @@ export default function Poll() {
   
   const handleDelete = async (id) => {
     await deletePoll(id);
+    //setIsDelete(prev=>!prev);
     getData();
     setOpenDelete(false);
   };
 
   useEffect(() => {
     getData();
-  }, [offset]);
+  },[offset]);
 
   return (
     <div className="col-lg-12 row justify-content-between mt-3">
@@ -302,7 +304,7 @@ export default function Poll() {
                         <Button autoFocus onClick={handleClose}>
                           Keep Poll
                         </Button>
-                        <Button onClick={()=>handleDelete(poll.id)} autoFocus>
+                        <Button onClick={()=>handleDelete(poll.id)} >
                           Delete
                         </Button>
                       </DialogActions>
