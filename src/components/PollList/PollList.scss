@@ -3,7 +3,28 @@
   color: rgb(66, 179, 230);
   margin-right: 8px;
 }
-
+.MuiDialogActions-root {
+  .MuiButtonBase-root:nth-child(even) {
+    background-color: rgb(17, 142, 226);
+    .MuiButton-label {
+      color: white;
+    }
+  }
+  .MuiButtonBase-root:nth-child(odd) {
+    background-color: rgb(199, 199, 199);
+    .MuiButton-label {
+      color: black;
+    }
+  }
+}
+.MuiTableCell-root{
+    .MuiButtonBase-root:nth-child(even) {
+      background-color: rgb(175, 15, 148);
+      .MuiButton-label {
+        color: white;
+      }
+    }
+}
 .MuiTypography-body1 {
   color: black;
 }
@@ -21,32 +42,28 @@ tbody {
   box-shadow: 5px 5px 6px -2px rgba(0, 0, 0, 0.6);
   transition: 0.3s;
 }
-.dlt:hover{
+.dlt:hover {
   color: red;
 }
-.MuiTable-root{
-    margin-top: 5rem;
+.MuiTable-root {
+  margin-top: 5rem;
 }
-.pagination{
+.pagination {
   margin: 2rem auto;
 }
-.live{
+.live {
   align-content: center;
-  background:rgb(245, 184, 194);
-  color:red;
-  maxHeight:20px;
-  maxWidth:25px;
+  background: rgb(245, 184, 194);
+  color: red;
   border-radius: 10px;
 }
-.ended{
+.ended {
   align-content: center;
-  background:#AFAFAF;
-  color:#000;
-  maxHeight:20px;
-  maxWidth:25px;
+  background: #afafaf;
+  color: #000;
   border-radius: 10px;
 }
-.nav{
+.nav {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
