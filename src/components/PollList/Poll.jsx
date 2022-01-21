@@ -129,7 +129,7 @@ export default function Poll() {
 
   const getDetail = async (id) =>{
       localStorage.setItem('ID',id);
-      Navigate('/Detail')
+      navigate('/Detail')
   }
 
   const formatDate = (second, format) => {
