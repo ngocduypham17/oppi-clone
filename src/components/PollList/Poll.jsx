@@ -127,7 +127,7 @@ export default function Poll() {
     getDetail(id);
   };
 
-  const getDetail = async (id) =>{
+  const getDetail = (id) =>{
       localStorage.setItem('ID',id);
       navigate('/Detail')
   }
@@ -157,8 +157,8 @@ export default function Poll() {
       console.log(e);
     }
   };
-  const deletePoll = async (id) => {
-    return await axios
+  const deletePoll = (id) => {
+    return axios
       .delete(`${DEL_URL}/${id}`, { headers: header })
       .then((respon) => console.log(respon))
       .catch((e) => console.log(e));
@@ -312,7 +312,6 @@ export default function Poll() {
           </TableBody>
         </Table>
       </TableContainer>
-
       <Dialog
                       open={openDelete}
                       onClose={handleClose}
