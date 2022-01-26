@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Poll from './components/PollList/Poll';
-import Detail from './components/Detail/Detail';
+import Detail from './components/PollDetail/PollDetail';
 import Login from './components/Login/Login';
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
         <Routes>
         <Route path="/" element={<Login/>}></Route>
         <Route path="/polllist" element={<Poll/>}></Route>
-        <Route path="/detail" element={<Detail/>}></Route>
+        <Route path="/polldetail" element={<Detail/>}></Route>
         </Routes>
       </BrowserRouter>
     </>
