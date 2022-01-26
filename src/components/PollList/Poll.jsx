@@ -25,7 +25,7 @@ import MenuList from "@mui/material/MenuList";
 import axios from "axios";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import Pagination from "@material-ui/lab/Pagination";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,11 +43,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Poll() {
-  const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [openLogOut, setOpenLogOut] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [placement, setPlacement] = React.useState();
   const [offset, setOffset] = useState(0);
   const [polls, setPolls] = useState([]);
   const [selectedID,setSelectedID] = useState();
@@ -70,7 +68,6 @@ export default function Poll() {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-    setAnchorEl(null);
     setOpen(false);
     setOpenLogOut(false);
     setOpenDelete(false);
@@ -117,19 +114,15 @@ export default function Poll() {
       .catch((e) => console.log(e));
   };
 
-  const handleClick = (newPlacement) => (event) => {
-    setAnchorEl(event.currentTarget);
-    setOpen((prev) => placement !== newPlacement || !prev);
-    setPlacement(newPlacement);
-  };
-  const openDetail = (id) => {
-    navigate("/Detail");
+  
+  const openDetail = async (id) => {
     getDetail(id);
+    await navigate("/polldetail");
   };
 
   const getDetail = (id) =>{
       localStorage.setItem('ID',id);
-      navigate('/Detail')
+     // navigate('/Detail')
   }
 
   const formatDate = (second, format) => {

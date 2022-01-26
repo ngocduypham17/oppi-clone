@@ -59,12 +59,17 @@ const Detail = () => {
   const header = { Authorization: `Bearer ${AccessToken}` };
   const URL_DETAIL = `https://dev.oppi.live/api/admin/v1/polls/${ID}`;
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
+  const { setValue, control, handleSubmit } = useForm({
+    defaultValues: {
+      title: "",
+      question: "",
+      description: "",
+      openedAt: 0,
+      closedAt: 0,
+      isPublicResult: false,
+      resultRedirectUrl: "",
+      isRequireEmail: false,
+    },
     resolver: yupResolver(schema),
   });
 
@@ -81,22 +86,13 @@ const Detail = () => {
   const onSubmit = () => {};
 
   const getData = () => {
-    // try {
-    //   const response = await axios.get(`${URL_DETAIL}/${ID}`, {
-    //     headers: header,
-    //   });
-    //   const data = response.data;
-    //   setPoll(data);
-    //   console.log(data);
-    // } catch (e) {
-    //   console.log(e);
-    // }
     return axios
       .get(URL_DETAIL, { headers: header })
       .then((response) => {
-        //console.log(response.data);
         setPoll(response.data);
-        //console.log("poll", poll);
+        console.log('response :',response)
+        console.log('response.data : ', response.data)
+        console.log(`poll :  ${poll}`);
       })
       .catch((e) => console.log(e));
   };
@@ -105,17 +101,15 @@ const Detail = () => {
     getData();
   }, []);
 
-  console.log(`poll title : ${poll} `, poll);
-
-
   return (
     <div class="container">
-      <div className="col-lg-12 row justify-content-between mt-0 ">
+      <h1>abc dfg</h1>
+      {/* <div className="col-lg-12 row justify-content-between mt-0 ">
         <div className="ml-5 mb-4 mt-4">
           <Typography variant="h4">Poll Detail Form</Typography>
         </div>
 
-         <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div class="form-group form-group-lg">
             <label for="exampleInputEmail1">Poll Name*</label>
             <input
@@ -231,8 +225,8 @@ const Detail = () => {
           <button type="submit" class="btn btn-warning">
             Save
           </button>
-        </form> 
-      </div>
+        </form>
+      </div>    */}
     </div>
   );
 };
