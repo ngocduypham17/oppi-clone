@@ -90,21 +90,19 @@ const Detail = () => {
       .get(URL_DETAIL, { headers: header })
       .then((response) => {
         setPoll(response.data);
-        console.log('response :',response)
-        console.log('response.data : ', response.data)
-        console.log(`poll :  ${poll}`);
+        console.log("response :", response);
+        console.log("response.data : ", response.data);
       })
       .catch((e) => console.log(e));
   };
-
   useEffect(() => {
     getData();
   }, []);
-
+  console.log(`poll :  ${poll}`);
   return (
     <div class="container">
       <h1>abc dfg</h1>
-      {/* <div className="col-lg-12 row justify-content-between mt-0 ">
+      <div className="col-lg-12 row justify-content-between mt-0 ">
         <div className="ml-5 mb-4 mt-4">
           <Typography variant="h4">Poll Detail Form</Typography>
         </div>
@@ -113,7 +111,7 @@ const Detail = () => {
           <div class="form-group form-group-lg">
             <label for="exampleInputEmail1">Poll Name*</label>
             <input
-              value={poll.title}
+              value={poll?.title}
               type="text"
               class="form-control col-lg-12"
               id="exampleInputEmail1"
@@ -127,7 +125,7 @@ const Detail = () => {
           <div class="form-group">
             <label for="exampleInputPassword1">Poll Question*</label>
             <input
-              value={poll.question}
+              value={poll?.question}
               type="text"
               class="form-control"
               id="exampleInputPassword1"
@@ -144,14 +142,14 @@ const Detail = () => {
               class="form-control"
               id="exampleFormControlTextarea1"
               rows="3"
-              value={poll.description}
+              value={poll?.description}
             ></textarea>
           </div>
           <div class="form-group">
             <h5>Poll Dates</h5>
             <label htmlFor="">From</label>
             <TextField
-              value={formatDate(poll.openedAt)}
+              value={formatDate(poll?.openedAt)}
               id="date"
               label=""
               type="date"
@@ -166,7 +164,7 @@ const Detail = () => {
               id="date"
               label=""
               type="date"
-              value={formatDate(poll.closedAt)}
+              value={formatDate(poll?.closedAt)}
               sx={{ width: 220 }}
               InputLabelProps={{
                 shrink: true,
@@ -185,7 +183,7 @@ const Detail = () => {
               </div>
               <div>
                 <FormControlLabel
-                  control={<Android12Switch checked={poll.isPublicResult} />}
+                  control={<Android12Switch checked={poll?.isPublicResult} />}
                   label=""
                 />
               </div>
@@ -193,7 +191,7 @@ const Detail = () => {
             <div class="form-group">
               <label for="exampleInputEmail1">Redirect URL</label>
               <input
-                value={poll.resultRedirectUrl}
+                value={poll?.resultRedirectUrl}
                 type="email"
                 class="form-control"
                 id="exampleInputEmail1"
@@ -214,7 +212,7 @@ const Detail = () => {
                   control={
                     <Android12Switch
                       onChange={(e) => handleChange(e)}
-                      checked={poll.isRequireEmail}
+                      checked={poll?.isRequireEmail}
                     />
                   }
                   label=""
@@ -226,7 +224,7 @@ const Detail = () => {
             Save
           </button>
         </form>
-      </div>    */}
+      </div>
     </div>
   );
 };
