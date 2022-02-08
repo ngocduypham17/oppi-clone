@@ -1,4 +1,4 @@
-import "./Login.css";
+import "./Login.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
@@ -20,7 +20,6 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -77,6 +76,7 @@ const Login = () => {
         type="submit"
         style={{ color: "white" }}
         className="b col-lg-3 col-sm-2 btn btn-warning mt-3"
+        onClick={onSubmit}
       >
         Sign In
       </button>
