@@ -15,7 +15,7 @@ const schema = yup.object().shape({
 
 const Detail = () => {
   const [poll, setPoll] = useState();
-  const [dis,setDis] = useState(poll?.isPublicResult);
+  const [isPublic,setIsPulic] = useState();
   const ID = localStorage.getItem("ID");
   const AccessToken = localStorage.getItem("AdminAccessToken");
   const header = { Authorization: `Bearer ${AccessToken}` };
@@ -36,6 +36,7 @@ const Detail = () => {
       .get(URL_DETAIL, { headers: header })
       .then((response) => {
         setPoll(response.data);
+        setIsPulic(response.data.isPublicResult);
         setValue("title", response.data.title);
         setValue("question", response.data.question);
         setValue("description", response.data.description);
@@ -98,7 +99,7 @@ const Detail = () => {
   };
 
   const handleChange = () =>{
-    setDis(!dis)
+    setIsPulic(!isPublic)
   }
 
   //--------------------------------------------------  RENDERING ----------------------------------------------------
@@ -106,6 +107,7 @@ const Detail = () => {
   return (
     <form className="form-style col-xl-10" onSubmit={handleSubmit(onSubmit)}>
       <h1 className="text-left text-dark my-5">Poll Detail Form</h1>
+      <h6>{isPublic?.toString()} </h6>
       <div class="col-xl-12">
         <label for="pollName">Poll Name*</label>
         <input
@@ -180,7 +182,7 @@ const Detail = () => {
           <div class="d-flex justify-content-between">
             <div class="form-group flex-column">
               <div>
-                <label htmlFor="">
+                <label htmlFor="isPublicResult">
                   Public Result
                   <span className="ml-1">
                     <InfoIcon />
@@ -193,8 +195,10 @@ const Detail = () => {
                     <input
                       type="checkbox"
                       name="isPublicResult"
-                      id=""
+                      id="isPublicResult"
                       {...register("isPublicResult")}
+                      checked={isPublic}
+                      onChange={handleChange}
                     />
                   </div>
                 ) : (
@@ -202,10 +206,10 @@ const Detail = () => {
                     <input
                       type="checkbox"
                       name="isPublicResult"
-                      id=""
+                      id="isPublicResult"
                       {...register("isPublicResult")}
-                      checked={dis}
-                      onChange={handleChange}
+                      checked={isPublic}
+                      disabled readonly
                     />
                   </div>
                 )}
@@ -217,14 +221,14 @@ const Detail = () => {
                 type="text"
                 class="form-control"
                 id="exampleInputEmail1"
-                disabled={dis}
+                disabled={isPublic}
                 name="resultRedirectUrl"
                 {...register("resultRedirectUrl")}
               />
             </div>
             <div class="form-group flex-column">
               <div>
-                <label htmlFor="">
+                <label htmlFor="emailRequire">
                   Email Required
                   <span className="ml-1">
                     <InfoIcon />
@@ -236,7 +240,7 @@ const Detail = () => {
                   <input
                     type="checkbox"
                     name="isRequireEmail"
-                    id=""
+                    id="emailRequire"
                     {...register("isRequireEmail")}
                   />
                 </div>
