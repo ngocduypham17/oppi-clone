@@ -1,4 +1,4 @@
-import "./Login.css";
+import "./Login.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
@@ -12,8 +12,7 @@ const schema = yup.object().shape({
 });
 
 const Login = () => {
-
-  const [err,setErr] = useState('');
+  const [err, setErr] = useState("");
   const TOKEN_KEY = "AdminAccessToken";
   const API_URL = "https://dev.oppi.live/api/admin/v1/auth/signin";
   const navigate = useNavigate();
@@ -21,25 +20,26 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
   const onSubmit = (data) => {
-    axios.post(API_URL, data).then((response) => {
-      async function setToken() {
-        localStorage.setItem(TOKEN_KEY, response.data.token);
-      }
-      setToken().then(() => {
-        navigate("/polllist");
-        setErr('');
-      });
-    })
+    axios
+      .post(API_URL, data)
+      .then((response) => {
+        async function setToken() {
+          localStorage.setItem(TOKEN_KEY, response.data.token);
+        }
+        setToken().then(() => {
+          navigate("/polllist");
+          setErr("");
+        });
+      })
       .catch((e) => {
         console.log(e.response.data.message);
         setErr(e.response.data.message);
-    });
+      });
   };
 
   return (
@@ -53,7 +53,7 @@ const Login = () => {
           id="email"
           placeholder="Email Address"
           name="email"
-          {...register("email")} 
+          {...register("email")}
         />
         <p className="mt-1">{errors.email?.message}</p>
       </div>
@@ -76,12 +76,15 @@ const Login = () => {
         type="submit"
         style={{ color: "white" }}
         className="b col-lg-3 col-sm-2 btn btn-warning mt-3"
+        onClick={onSubmit}
       >
         Sign In
       </button>
-      <p style={{color:'black'}} className="text-center my-2 mt-4">Forgot Password</p>
+      <p style={{ color: "black" }} className="text-center my-2 mt-4">
+        Forgot Password
+      </p>
       <p className="text-center text-primary my-1 create">Create New Account</p>
     </form>
   );
-}; 
+};
 export default Login;
