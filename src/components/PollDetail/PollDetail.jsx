@@ -15,7 +15,7 @@ const schema = yup.object().shape({
 
 const Detail = () => {
   const [poll, setPoll] = useState();
-  const [isPublic,setIsPulic] = useState();
+  const [isPublic, setIsPublic] = useState();
   const ID = localStorage.getItem("ID");
   const AccessToken = localStorage.getItem("AdminAccessToken");
   const header = { Authorization: `Bearer ${AccessToken}` };
