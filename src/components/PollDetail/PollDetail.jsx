@@ -99,7 +99,7 @@ const Detail = () => {
   };
 
   const handleChange = () =>{
-    setIsPulic(!isPublic)
+    setIsPulic((prevState) => !prevState)
   }
 
   //--------------------------------------------------  RENDERING ----------------------------------------------------
