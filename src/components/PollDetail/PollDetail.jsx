@@ -240,7 +240,7 @@ const Detail = () => {
                   <input
                     type="checkbox"
                     name="isRequireEmail"
-                    id="emailRequire"
+                    id="emailRequired"
                     {...register("isRequireEmail")}
                   />
                 </div>
