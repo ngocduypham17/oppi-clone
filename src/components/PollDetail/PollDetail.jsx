@@ -228,7 +228,7 @@ const Detail = () => {
             </div>
             <div class="form-group flex-column">
               <div>
-                <label htmlFor="emailRequire">
+                <label htmlFor="emailRequired">
                   Email Required
                   <span className="ml-1">
                     <InfoIcon />
