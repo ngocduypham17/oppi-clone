@@ -3,8 +3,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/consumeHook.ts";
+import { setErrorMessage, loginRequest } from "./reducer";
+import { useNavigate } from "react-router-dom";
+import clientPath from "../../constants/clientPath";
+import { REQUEST_STATUS } from "../../constants/status";
+import { ADMIN_TOKEN } from "../../constants/localStorage";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -12,10 +16,10 @@ const schema = yup.object().shape({
 });
 
 function Login () {
-  const [err, setErr] = useState("");
-  const TOKEN_KEY = "AdminAccessToken";
-  const API_URL = "https://dev.oppi.live/api/admin/v1/auth/signin";
-  const navigate = useNavigate();
+  // const [err, setErr] = useState("");
+  // const TOKEN_KEY = "AdminAccessToken";
+  // const API_URL = "https://dev.oppi.live/api/admin/v1/auth/signin";
+  // const navigate = useNavigate();
   const {
     register,
     handleSubmit,
