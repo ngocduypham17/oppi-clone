@@ -11,7 +11,7 @@ const schema = yup.object().shape({
   password: yup.string().required(),
 });
 
-const Login = () => {
+function Login () {
   const [err, setErr] = useState("");
   const TOKEN_KEY = "AdminAccessToken";
   const API_URL = "https://dev.oppi.live/api/admin/v1/auth/signin";

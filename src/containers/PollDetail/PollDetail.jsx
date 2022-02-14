@@ -12,10 +12,13 @@ const schema = yup.object().shape({
   description: yup.string().max(999).required(),
 });
 
-
 const Detail = () => {
   const [poll, setPoll] = useState();
+<<<<<<< HEAD:src/components/PollDetail/PollDetail.jsx
   const [isPublic, setIsPublic] = useState();
+=======
+  const [isPublic, setIsPulic] = useState();
+>>>>>>> 5b96cc8 (redux-login):src/containers/PollDetail/PollDetail.jsx
   const ID = localStorage.getItem("ID");
   const AccessToken = localStorage.getItem("AdminAccessToken");
   const header = { Authorization: `Bearer ${AccessToken}` };
@@ -93,14 +96,20 @@ const Detail = () => {
         headers: header,
         data: dataSend,
       })
-        .then(alert('Done !\nInformation updated'))
+        .then(alert("Done !\nInformation updated"))
         .catch((e) => alert(e));
     }
   };
 
+<<<<<<< HEAD:src/components/PollDetail/PollDetail.jsx
   const handleChange = () =>{
     setIsPulic((prevState) => !prevState)
   }
+=======
+  const handleChange = () => {
+    setIsPulic(!isPublic);
+  };
+>>>>>>> 5b96cc8 (redux-login):src/containers/PollDetail/PollDetail.jsx
 
   //--------------------------------------------------  RENDERING ----------------------------------------------------
 
@@ -209,7 +218,8 @@ const Detail = () => {
                       id="isPublicResult"
                       {...register("isPublicResult")}
                       checked={isPublic}
-                      disabled readonly
+                      disabled
+                      readonly
                     />
                   </div>
                 )}

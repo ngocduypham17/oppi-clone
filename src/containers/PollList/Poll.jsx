@@ -48,7 +48,7 @@ export default function Poll() {
   const [openDelete, setOpenDelete] = useState(false);
   const [offset, setOffset] = useState(0);
   const [polls, setPolls] = useState([]);
-  const [selectedID,setSelectedID] = useState();
+  const [selectedID, setSelectedID] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [page, setPage] = useState(0);
   const classes = useStyles();
@@ -100,7 +100,6 @@ export default function Poll() {
     setOpenDelete(true);
     setSelectedID(id);
     console.log(id);
-    
   };
 
   const handleLogOut = () => {
@@ -114,16 +113,15 @@ export default function Poll() {
       .catch((e) => console.log(e));
   };
 
-  
   const openDetail = async (id) => {
     getDetail(id);
     await navigate("/polldetail");
   };
 
-  const getDetail = (id) =>{
-      localStorage.setItem('ID',id);
-     // navigate('/Detail')
-  }
+  const getDetail = (id) => {
+    localStorage.setItem("ID", id);
+    // navigate('/Detail')
+  };
 
   const formatDate = (second, format) => {
     let time = new Date(second * 1000);
@@ -227,7 +225,9 @@ export default function Poll() {
             <DialogTitle textAlign="center">Log Out</DialogTitle>
             <DialogContent>
               <DialogContentText>
+                <hr />
                 Are you sure you want to logout?
+                <hr />
               </DialogContentText>
             </DialogContent>
             <DialogActions>
@@ -270,19 +270,23 @@ export default function Poll() {
             {polls.map((poll) => {
               return (
                 <TableRow id={poll.id}>
-                  <TableCell onClick={()=>openDetail(poll.id)} component="th" scope="row">
+                  <TableCell
+                    onClick={() => openDetail(poll.id)}
+                    component="th"
+                    scope="row"
+                  >
                     {poll.title}
                   </TableCell>
-                  <TableCell onClick={()=>openDetail(poll.id)} align="right">
+                  <TableCell onClick={() => openDetail(poll.id)} align="right">
                     {poll.question}
                   </TableCell>
-                  <TableCell onClick={()=>openDetail(poll.id)} align="right">
+                  <TableCell onClick={() => openDetail(poll.id)} align="right">
                     {formatDate(poll.openedAt)}
                   </TableCell>
-                  <TableCell onClick={()=>openDetail(poll.id)} align="right">
+                  <TableCell onClick={() => openDetail(poll.id)} align="right">
                     {formatDate(poll.closedAt)}
                   </TableCell>
-                  <TableCell onClick={()=>openDetail(poll.id)} align="right">
+                  <TableCell onClick={() => openDetail(poll.id)} align="right">
                     {poll.participantCount}
                   </TableCell>
                   {poll.status === "live" ? (
@@ -295,7 +299,10 @@ export default function Poll() {
                     </TableCell>
                   )}
                   <TableCell align="center">
-                    <button className="dlt" onClick={() => handleOpenDelete(poll.id)}>
+                    <button
+                      className="dlt"
+                      onClick={() => handleOpenDelete(poll.id)}
+                    >
                       DELETE
                     </button>
                   </TableCell>
@@ -306,48 +313,57 @@ export default function Poll() {
         </Table>
       </TableContainer>
       <Dialog
-                      open={openDelete}
-                      onClose={handleClose}
-                      aria-labelledby="responsive-dialog-title"
-                    >
-                      <DialogTitle id="responsive-dialog-title"></DialogTitle>
-                      <DialogContent>
-                        <DialogContentText
-                          style={{
-                            margin: "0px 15px",
-                            textAlign: "center",
-                            color: "#000",
-                          }}
-                        >
-                          Are you sure you would like to delete this poll? Once
-                          deleted, it cannot be retrieved.
-                        </DialogContentText>
-                      </DialogContent>
-                      <DialogActions style={{ justifyContent: "space-evenly" }}>
-                        <Button
-                          autoFocus
-                          onClick={handleClose}
-                          style={{
-                            height: "38px",
-                            width: "142px",
-                            borderRadius: "12px",
-                          }}
-                        >
-                          Keep Poll
-                        </Button>
-                        <Button
-                          onClick={() => handleDelete(selectedID)}
-                          style={{
-                            backgroundColor: "rgb(220, 38, 127)",
-                            height: "38px",
-                            width: "142px",
-                            borderRadius: "12px",
-                          }}
-                        >
-                          Delete
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
+        open={openDelete}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title"></DialogTitle>
+        <DialogContent>
+          <DialogContentText
+            style={{
+              margin: "0px 15px",
+              textAlign: "center",
+              color: "#000",
+            }}
+          >
+            <div className="text-center">
+              <img
+                className="img-responsive "
+                maxWidth="30px"
+                maxHeight="30px"
+                src="https://admin.dev.oppi.live/static/media/img_decision.97fcdb38.png"
+                alt=""
+              />
+            </div>
+            Are you sure you would like to delete this poll? Once deleted, it
+            cannot be retrieved.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions style={{ justifyContent: "space-evenly" }}>
+          <Button
+            autoFocus
+            onClick={handleClose}
+            style={{
+              height: "38px",
+              width: "142px",
+              borderRadius: "12px",
+            }}
+          >
+            Keep Poll
+          </Button>
+          <Button
+            onClick={() => handleDelete(selectedID)}
+            style={{
+              backgroundColor: "rgb(220, 38, 127)",
+              height: "38px",
+              width: "142px",
+              borderRadius: "12px",
+            }}
+          >
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <div style={{ margin: "2rem auto" }} className={classes.root}>
         <Pagination
