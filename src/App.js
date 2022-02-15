@@ -1,25 +1,44 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import ProtectedRoute from "./components/ProtectedRoute.js";
+import ProtectedRoute from "./components/ProtectedRoute";
 import { Navigate } from "react-router-dom";
-import { ADMIN_TOKEN, CACHED_URL } from "./constants/localStorage";
+import { ACCESS_TOKEN, CACHED_URL } from "./constants/localStorage";
 import clientPath from "./constants/clientPath";
-import Poll from './components/PollList/Poll';
-import Detail from './components/PollDetail/PollDetail';
-import Login from './components/Login/Login';
+import Login from './containers/Login';
+import Poll from "./containers/PollList/Poll";
+import Detail from "./containers/PollDetail/PollDetail";
 
 function App() {
   const { LOGIN, POLLLIST, POLLDETAIL, ROOT } = clientPath;
-  const accessToken = sessionStorage.getItem(ADMIN_TOKEN);
+  const accessToken = sessionStorage.getItem(ACCESS_TOKEN);
   const cachedUrl = localStorage.getItem(CACHED_URL);
   return (
     <>
       <BrowserRouter>
         <Routes>
-        <Route path={ROOT} element={<Login/>}></Route>
-        <Route path={POLLLIST} element={<Poll/>}></Route>
-        <Route path={POLLDETAIL} element={<Detail/>}></Route>
+          <Route path={ROOT} element={<Navigate to={LOGIN} />}></Route>
+          <Route
+            path={LOGIN}
+            element={accessToken ? <Navigate to={cachedUrl} /> : <Login />}
+          ></Route>
+          <Route
+            path={POLLLIST}
+            element={
+              <ProtectedRoute>
+                <Poll />
+              </ProtectedRoute>
+            }
+          ></Route>
+
+          <Route
+            path={POLLDETAIL}
+            element={
+              <ProtectedRoute>
+                <Detail />
+              </ProtectedRoute>
+            }
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>

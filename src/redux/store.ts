@@ -1,26 +1,23 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import createSagaMiddleware from 'redux-saga';
-import { routerMiddleware } from 'connected-react-router';
-import saga from './saga';
-import reducer from './reducer';
-import history from '../utils/history';
+import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "./reducer";
+import createSagaMiddleware  from "redux-saga"
+import rootSaga from "./saga" ;
 
-const sagaMiddleware = createSagaMiddleware();
-const middleware = [
-  ...getDefaultMiddleware({ thunk: false }),
-  sagaMiddleware,
-  routerMiddleware(history),
-];
+const sagaMiddleWare = createSagaMiddleware();
 
 const store = configureStore({
-  middleware,
-  reducer,
+  reducer:rootReducer,
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: false
+  }).concat(sagaMiddleWare),
 });
 
-sagaMiddleware.run(saga);
+sagaMiddleWare.run(rootSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
+
 
 export default store;
