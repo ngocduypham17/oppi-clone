@@ -3,18 +3,22 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks.ts";
+import { setErrorMessage, loginRequest } from "./reducer";
+import { useNavigate } from "react-router-dom";
+import clientPath from "../../constants/clientPath";
+import { REQUEST_STATUS } from "../../constants/common";
+import { ACCESS_TOKEN } from "../../constants/localStorage";
+import { useEffect } from "react";
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().required(),
 });
 
-const Login = () => {
-  const [err, setErr] = useState("");
-  const TOKEN_KEY = "AdminAccessToken";
-  const API_URL = "https://dev.oppi.live/api/admin/v1/auth/signin";
+function Login () {
+  const dispatch = useAppDispatch();
+  const { errorMessage, loginStatus } = useAppSelector((state) => state.login);
   const navigate = useNavigate();
   const {
     register,
@@ -24,29 +28,26 @@ const Login = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = (data) => {
-    axios
-      .post(API_URL, data)
-      .then((response) => {
-        async function setToken() {
-          localStorage.setItem(TOKEN_KEY, response.data.token);
-        }
-        setToken().then(() => {
-          navigate("/polllist");
-          setErr("");
-        });
-      })
-      .catch((e) => {
-        console.log(e.response.data.message);
-        setErr(e.response.data.message);
-      });
+
+  const handleLogin = () => {
+    const Token = localStorage.getItem(ACCESS_TOKEN);
+    if (Token && loginStatus === REQUEST_STATUS.SUCCESS) {
+      navigate(clientPath.POLLLIST);
+    } else navigate(clientPath.LOGIN);
   };
+  const onSubmit = (data) => {
+    dispatch(loginRequest(data));
+  };
+
+  useEffect(() => {
+    handleLogin();
+  }, [loginStatus]);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <h1 className="text-center text-info my-5">Sign In</h1>
-      <div class="form-group text-info col-lg-9">
-        <label for="email">EMAIL ADDRESS</label>
+      <div className="form-group text-info col-lg-9">
+        <label htmlFor="email">EMAIL ADDRESS</label>
         <input
           type="email"
           className="form-control"
@@ -57,8 +58,8 @@ const Login = () => {
         />
         <p className="mt-1">{errors.email?.message}</p>
       </div>
-      <div class="form-group text-info col-lg-9">
-        <label for="password" className="">
+      <div className="form-group text-info col-lg-9">
+        <label htmlFor="password" className="">
           PASSWORD
         </label>
         <input
@@ -70,7 +71,7 @@ const Login = () => {
           {...register("password")}
         />
         <p className="mt-1">{errors.password?.message}</p>
-        <p>{err}</p>
+        <p></p>
       </div>
       <button
         type="submit"
