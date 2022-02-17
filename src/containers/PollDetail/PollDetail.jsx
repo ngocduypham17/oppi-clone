@@ -13,7 +13,7 @@ const schema = yup.object().shape({
 });
 
 
-const Detail = () => {
+const PollDetail = () => {
   const [poll, setPoll] = useState();
   const [isPublic, setIsPublic] = useState();
   const ID = localStorage.getItem("ID");
@@ -262,4 +262,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default PollDetail;

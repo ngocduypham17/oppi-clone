@@ -7,7 +7,7 @@ import { ACCESS_TOKEN, CACHED_URL } from "./constants/localStorage";
 import clientPath from "./constants/clientPath";
 import Login from "./containers/Login";
 import Poll from "./containers/PollList/Poll";
-import Detail from "./containers/PollDetail/PollDetail";
+import PollDetail from "./containers/PollDetail/PollDetail";
 
 function App() {
   const { LOGIN, POLLLIST, POLLDETAIL, ROOT } = clientPath;
@@ -35,7 +35,7 @@ function App() {
             path={POLLDETAIL}
             element={
               <ProtectedRoute>
-                <Detail />
+                <PollDetail />
               </ProtectedRoute>
             }
           ></Route>

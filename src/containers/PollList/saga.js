@@ -6,6 +6,7 @@ import {
   deletePollAction,
   setPages,
   getDataAction,
+  logOutAction
 } from "./reducer";
 import {
   getDataService,
@@ -16,7 +17,7 @@ import { STATUS_CODE } from "../../constants/common";
 
 function* getDataSaga() {
   const offset = yield select((state) => state.polllist.offset);
-  console.log('offset : ',offset);
+  console.log("offset : ", offset);
   try {
     const response = yield call(getDataService, offset);
     if (response.status === STATUS_CODE.SUCCESS) {
@@ -41,12 +42,16 @@ function* deletePollSaga() {
   }
 }
 
-// function* logoutSaga() {
-//     yield call(logoutService);
-
-// }
+function* logoutSaga() {
+    const response = yield call(logoutService);
+    if(response.status === STATUS_CODE.SUCCESS)
+    {
+        yield put(logOutAction());
+    }
+}
 
 export default function* polllistSaga() {
   yield takeEvery(getDataAction, getDataSaga);
   yield takeEvery(deletePollAction, deletePollSaga);
+  yield takeEvery(logOutAction, logoutSaga);
 }

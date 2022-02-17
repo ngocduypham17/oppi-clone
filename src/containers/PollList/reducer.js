@@ -23,12 +23,12 @@ export const slice = createSlice({
     setSelectedID: (state, action) => {
       state.selectedID = action.payload;
     },
-    getDataAction:{},
-    deletePollAction:{},
-    logOutAction:{},
+    getDataAction() {},
+    deletePollAction(){},
+    logOutAction() {},
   },
 });
 
-export const { setSelectedID,setPolls, setOffset, selectedID, setPages,getDataAction,deletePollAction } = slice.actions;
+export const { setSelectedID,setPolls, setOffset, selectedID, setPages,getDataAction,deletePollAction,logOutAction } = slice.actions;
 
 export default slice.reducer;

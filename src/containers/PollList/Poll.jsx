@@ -21,7 +21,6 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-import axios from "axios";
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import Pagination from "@material-ui/lab/Pagination";
 import { useNavigate } from "react-router";
@@ -31,7 +30,9 @@ import {
   getDataAction,
   setSelectedID,
   deletePollAction,
+  logOutAction,
 } from "./reducer";
+import clientPath from "../../constants/clientPath";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -102,7 +103,8 @@ export default function Poll() {
   };
 
   const handleLogOut = () => {
-    dispatch()
+    dispatch(logOutAction())
+    navigate(clientPath.LOGIN);
 
   };
 
@@ -128,9 +130,6 @@ export default function Poll() {
     setCurrentPage(page);
     dispatch(setOffset((page - 1) * 10));
   };
-  const getData = async () => {
-    
-  };
   const deletePoll = (id) => {
     dispatch(deletePollAction(id))
     // return axios
@@ -151,11 +150,8 @@ export default function Poll() {
   }, [pollsState.offset]);
 
   return (
-
-    
-    
     <div className="col-lg-12 row justify-content-between mt-0 ">
-      {console.log('pollstate: ',pollsState)}
+      {console.log("data render:",pollsState)}
       <div
         style={{ width: "100%", position: "fixed", background: "#fff" }}
         className="d-flex justify-content-between mb-5 pt-3"
@@ -255,7 +251,7 @@ export default function Poll() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pollsState.polls.map((poll) => {
+            {pollsState.polls.data?.list.map((poll) => {
               return (
                 <TableRow id={poll.id}>
                   <TableCell
