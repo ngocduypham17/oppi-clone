@@ -19,12 +19,12 @@ function* sendSignInRequest(data) {
       yield put(loginSuccess(response.data));
     }
   } catch (error) {
-    //if (error.response.data.message === "Incorrect username or password") {
+    if (error.response.data.message === "Incorrect username or password") {
       yield put(loginFail(invalidMessage));
-    //
-    //  yield put(loginRequest());
+    
+      yield put(loginRequest());
       yield put(setErrorMessage(""));
-   // }
+    }
   }
 }
 

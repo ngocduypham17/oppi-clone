@@ -18,7 +18,7 @@ export const slice = createSlice({
       state.loginStatus = REQUEST_STATUS.REQUESTING;
     },
     loginSuccess: (state, { payload: { token } }) => {
-      if (token) sessionStorage.setItem(ACCESS_TOKEN, token);
+      if (token) localStorage.setItem(ACCESS_TOKEN, token);
       state.loginStatus = REQUEST_STATUS.SUCCESS;
     },
     loginFail: (state, { payload }) => {
