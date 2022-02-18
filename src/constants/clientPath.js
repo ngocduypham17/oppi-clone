@@ -1,7 +1,7 @@
 const clientPath = {
   LOGIN: '/login',
   POLLLIST: "/polllist",
-  POLLDETAIL: "/polldetail/:pollId",
+  POLLDETAIL: "/polldetail/:selectedID",
   ROOT: '/',
 };
 

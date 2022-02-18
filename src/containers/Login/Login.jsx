@@ -1,7 +1,6 @@
 import "./Login.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks.ts";
 import { setErrorMessage, loginRequest } from "./reducer";
@@ -77,7 +76,7 @@ function Login () {
         type="submit"
         style={{ color: "white" }}
         className="b col-lg-3 col-sm-2 btn btn-warning mt-3"
-        onClick={onSubmit}
+        //onClick={onSubmit}
       >
         Sign In
       </button>
