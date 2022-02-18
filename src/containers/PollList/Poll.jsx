@@ -30,8 +30,8 @@ import {
   getDataAction,
   setSelectedID,
   deletePollAction,
-  logOutAction,
 } from "./reducer";
+import { logOutAction } from "../Login/reducer";
 import clientPath from "../../constants/clientPath";
 
 const useStyles = makeStyles((theme) => ({
@@ -96,26 +96,24 @@ export default function Poll() {
     setOpenLogOut(true);
   };
 
-  const handleOpenDelete = (id) => {
+  const handleOpenDelete = (e, id) => {
+    e.stopPropagation();
     setOpenDelete(true);
-    setSelectedID(id);
-    console.log(id);
+    dispatch(setSelectedID(id));
   };
 
   const handleLogOut = () => {
-    dispatch(logOutAction())
+    dispatch(logOutAction());
     navigate(clientPath.LOGIN);
-
   };
 
   const openDetail = async (id) => {
-    getDetail(id);
-    await navigate("/polldetail");
+    await getDetail(id);
+    await navigate(clientPath.POLLDETAIL);
   };
 
   const getDetail = (id) => {
-    localStorage.setItem("ID", id);
-    // navigate('/Detail')
+    dispatch(setSelectedID(id));
   };
 
   const formatDate = (second, format) => {
@@ -131,12 +129,17 @@ export default function Poll() {
     dispatch(setOffset((page - 1) * 10));
   };
   const deletePoll = (id) => {
-    dispatch(deletePollAction(id))
+    dispatch(deletePollAction(id));
     // return axios
     //   .delete(`${DEL_URL}/${id}`, { headers: header })
     //   .then((respon) => console.log(respon))
     //   .catch((e) => console.log(e));
   };
+
+  // {() => {
+  //   setOpenDelete(true);
+  //   dispatch(setSelectedID(poll.id));
+  // }}
 
   const handleDelete = async (id) => {
     await deletePoll(id);
@@ -151,7 +154,9 @@ export default function Poll() {
 
   return (
     <div className="col-lg-12 row justify-content-between mt-0 ">
-      {console.log("data render:",pollsState)}
+      {console.log("SelectedID -------------- : ",pollsState.selectedID)}
+      {console.log("PollsState : ", pollsState)}
+
       <div
         style={{ width: "100%", position: "fixed", background: "#fff" }}
         className="d-flex justify-content-between mb-5 pt-3"
@@ -251,26 +256,42 @@ export default function Poll() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {pollsState.polls.data?.list.map((poll) => {
+            {pollsState.polls.map((poll) => {
               return (
-                <TableRow id={poll.id}>
+                <TableRow
+                  id={poll.id}
+                  key={poll.id}
+                  onClick={() => openDetail(poll.id)}
+                >
                   <TableCell
-                    onClick={() => openDetail(poll.id)}
+                    //onClick={() => openDetail(poll.id)}
                     component="th"
                     scope="row"
                   >
                     {poll.title}
                   </TableCell>
-                  <TableCell onClick={() => openDetail(poll.id)} align="right">
+                  <TableCell
+                    //onClick={() => openDetail(poll.id)}
+                    align="right"
+                  >
                     {poll.question}
                   </TableCell>
-                  <TableCell onClick={() => openDetail(poll.id)} align="right">
+                  <TableCell
+                    //onClick={() => openDetail(poll.id)}
+                    align="right"
+                  >
                     {formatDate(poll.openedAt)}
                   </TableCell>
-                  <TableCell onClick={() => openDetail(poll.id)} align="right">
+                  <TableCell
+                    //onClick={() => openDetail(poll.id)}
+                    align="right"
+                  >
                     {formatDate(poll.closedAt)}
                   </TableCell>
-                  <TableCell onClick={() => openDetail(poll.id)} align="right">
+                  <TableCell
+                    //onClick={() => openDetail(poll.id)}
+                    align="right"
+                  >
                     {poll.participantCount}
                   </TableCell>
                   {poll.status === "live" ? (
@@ -285,7 +306,7 @@ export default function Poll() {
                   <TableCell align="center">
                     <button
                       className="dlt"
-                      onClick={() => handleOpenDelete(poll.id)}
+                      onClick={(e) => handleOpenDelete(e, poll.id)}
                     >
                       DELETE
                     </button>
@@ -313,8 +334,8 @@ export default function Poll() {
             <div className="text-center">
               <img
                 className="img-responsive "
-                maxWidth="30px"
-                maxHeight="30px"
+                maxwidth="30px"
+                maxheight="30px"
                 src="https://admin.dev.oppi.live/static/media/img_decision.97fcdb38.png"
                 alt=""
               />

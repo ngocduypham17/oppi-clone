@@ -8,6 +8,7 @@ import {
 import AuthenticationService from '../../services/AuthenticationService';
 import { STATUS_CODE } from "../../constants/common";
 
+
 const invalidMessage = "Email or password is invalid, please try again.";
 
 function* sendSignInRequest(data) {
@@ -28,6 +29,16 @@ function* sendSignInRequest(data) {
   }
 }
 
+// function* logoutSaga() {
+//   const response = yield call(logoutService);
+//   if(response.status === STATUS_CODE.SUCCESS)
+//   {
+//       console.log(response.status);
+//       yield call(localStorage.removeItem(ACCESS_TOKEN));
+//       yield put(logOutAction());
+//   }
+// }
+
 export default function* loginSaga() {
-  yield takeEvery(loginRequest, sendSignInRequest);
+  yield takeEvery(loginRequest, sendSignInRequest,);
 }

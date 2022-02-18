@@ -3,7 +3,8 @@ import loginReducer from '../../containers/Login/reducer';
 import polllistReducer from '../../containers/PollList/reducer';
 const rootReducer = combineReducers({
   login: loginReducer,
-  polllist:polllistReducer
+  polllist:polllistReducer,
+  polldetail:polldetailReducer
 });
 
 export default rootReducer;

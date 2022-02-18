@@ -5,6 +5,7 @@ function login(data) {
   return baseService.post(URL_SIGNIN, data);
 }
 
+
 export default {
   login,
 };
