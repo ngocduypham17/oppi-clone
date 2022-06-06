@@ -25,10 +25,11 @@ export const slice = createSlice({
       state.loginStatus = REQUEST_STATUS.ERROR;
       state.errorMessage = payload;
     },
+    logOutAction(){},
   },
 });
 
-export const { setErrorMessage, loginRequest, loginSuccess, loginFail } =
+export const { setErrorMessage, loginRequest, loginSuccess, loginFail,logOutAction } =
   slice.actions;
 
 export default slice.reducer;
